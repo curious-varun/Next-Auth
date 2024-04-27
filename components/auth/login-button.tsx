@@ -19,10 +19,6 @@ export const LoginButton = ({
         router.push("/auth/login");
         console.log('LOGIN BUTTON IS CLICKED ')
     }
-
-
-
-
     if (mode === "modal") {
         return (
             <span>
@@ -30,12 +26,9 @@ export const LoginButton = ({
             </span>
         )
     }
-
-
     return (
         <span onClick={onClick} className="coursor-pointer">
             {children}
         </span>
     )
-
 }
