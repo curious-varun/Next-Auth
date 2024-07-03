@@ -5,11 +5,11 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CardWrapper } from "./card-wrapper";
 import { LoginSchema } from "@/schemas";
+import { useState, useTransition } from "react";
 import {
     Form,
     FormControl,
     FormField,
-    useFormField,
     FormItem,
     FormLabel,
     FormMessage
@@ -18,9 +18,14 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
+import { login } from "@/actions/login";
 
 
 export default function LoginForm() {
+
+    const [isPending, startTransition] = useTransition();
+    const [error, setError] = useState<string | undefined>("");
+    const [success, setSuccess] = useState<string | undefined>("");
 
     const form = useForm<z.infer<typeof LoginSchema>>({
         resolver: zodResolver(LoginSchema),
@@ -31,7 +36,15 @@ export default function LoginForm() {
     });
 
     const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-        console.log(values);
+        setError("");
+        setSuccess("");
+        startTransition(() => {
+            login(values).then((data) => {
+                console.log(data);
+                setError(data.error);
+                setSuccess(data.success);
+            })
+        })
     }
 
 
@@ -84,8 +97,8 @@ export default function LoginForm() {
                             )}
                         />
                     </div>
-                    <FormError message="Somthing Went Wrong" />
-                    <FormSuccess message="Email sent" />
+                    <FormError message={error} />
+                    <FormSuccess message={success} />
                     <Button
                         type="submit"
                         className="w-full"
