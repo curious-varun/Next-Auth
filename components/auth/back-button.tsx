@@ -12,7 +12,7 @@ interface BackButtonProps {
 export const BackButton = ({ href, label, }: BackButtonProps) => {
 
     return (
-        <Button>
+        <Button variant="link">
             <Link href={href}>{label}</Link>
         </Button>
     )

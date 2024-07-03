@@ -39,7 +39,7 @@ export const CardWrapper = (
                 </CardFooter>
             )}
 
-            <CardFooter>
+            <CardFooter >
                 < BackButton
                     label={backButtonLabel}
                     href={backButtonHref}
